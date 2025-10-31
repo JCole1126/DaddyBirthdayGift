@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王腾生日礼物金额生成器</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff6b8b',
+                        secondary: '#a77dc2',
+                        accent: '#ff9eaa',
+                        light: '#fff0f5',
+                        dark: '#5a3971'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 3s infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'scale-in': 'scaleIn 0.5s ease-in-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.8)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            .bg-blur {
+                backdrop-filter: blur(8px);
+            }
+            .input-focus {
+                @apply focus:ring-2 focus:ring-primary focus:ring-opacity-50 focus:border-primary;
+            }
+            .btn-hover {
+                @apply hover:shadow-lg hover:-translate-y-1 transition-all duration-300;
+            }
+            .card-hover {
+                @apply hover:shadow-xl transition-all duration-300;
+            }
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffe5ec 0%, #f3e5f5 100%);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        
+        .result-animation {
+            animation: scaleIn 0.5s ease-in-out;
+        }
+        
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-md">
+        <!-- 标题区域 -->
+        <div class="text-center mb-8 animate-fade-in">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary text-gradient">
+                王腾生日礼物金额生成器
+            </h1>
+            <p class="text-gray-600 text-shadow">Daddy</p>
+        </div>
+        
+        <!-- 输入区域 -->
+        <div class="bg-white bg-opacity-80 bg-blur rounded-xl shadow-lg p-6 mb-6 card-hover">
+            <div class="mb-4">
+                <label for="min-amount" class="block text-gray-700 mb-2">最小金额 (元)</label>
+                <input type="number" id="min-amount" class="w-full px-4 py-2 rounded-lg border border-gray-300 input-focus" placeholder="例如: 52" value="52">
+            </div>
+            <div class="mb-6">
+                <label for="max-amount" class="block text-gray-700 mb-2">最大金额 (元)</label>
+                <input type="number" id="max-amount" class="w-full px-4 py-2 rounded-lg border border-gray-300 input-focus" placeholder="例如: 520" value="520">
+            </div>
+            <button id="generate-btn" class="w-full bg-gradient-to-r from-primary to-secondary text-white font-bold py-3 px-4 rounded-lg btn-hover flex items-center justify-center">
+                <i class="fa fa-heart mr-2"></i> 生成随机礼物金额
+            </button>
+        </div>
+        
+        <!-- 结果区域 -->
+        <div id="result-container" class="bg-white bg-opacity-80 bg-blur rounded-xl shadow-lg p-6 hidden">
+            <div class="text-center">
+                <div class="mb-4 text-gray-700">王腾的生日礼物金额是:</div>
+                <div id="result-amount" class="text-5xl font-bold text-primary mb-4 result-animation">¥99</div>
+                <div id="result-message" class="text-gray-600 italic">
+                    这个金额代表着你对她的爱意，快去挑选一份完美的礼物吧！
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-6 flex justify-center">
+            <img src="1.jpg" 
+                 alt="用户自定义图片" 
+                 class="w-48 h-auto rounded-lg shadow-lg">
+    </div>
+    
+    <!-- 版权信息 -->
+    <footer class="mt-auto py-4 text-center text-gray-500 text-sm">
+        <p>© 2025 王腾生日礼物金额生成器 | 小苞米给小薯条的上供时刻</p>
+    </footer>
+
+    <script>
+        const loveMessages = [
+            "这么会抽，那来抽我吧。"
+        ];
+        
+        // DOM元素
+        const minAmountInput = document.getElementById('min-amount');
+        const maxAmountInput = document.getElementById('max-amount');
+        const generateBtn = document.getElementById('generate-btn');
+        const resultContainer = document.getElementById('result-container');
+        const resultAmount = document.getElementById('result-amount');
+        const resultMessage = document.getElementById('result-message');
+        
+        // 生成随机金额
+        function generateRandomAmount(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        
+        // 按钮点击事件
+        generateBtn.addEventListener('click', () => {
+            // 获取输入值
+            let min = parseInt(minAmountInput.value);
+            let max = parseInt(maxAmountInput.value);
+            
+            // 验证输入
+            if (isNaN(min) || isNaN(max)) {
+                alert('请输入有效的数字');
+                return;
+            }
+            
+            if (min >= max) {
+                alert('最小金额必须小于最大金额');
+                return;
+            }
+            
+            if (min < 0) {
+                alert('金额不能为负数');
+                return;
+            }
+            
+            // 生成随机金额
+            const randomAmount = generateRandomAmount(min, max);
+            
+            // 显示结果
+            resultAmount.textContent = `¥${randomAmount}`;
+            
+            // 随机选择一条浪漫文案
+            const randomMessage = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+            resultMessage.textContent = randomMessage;
+            
+            // 显示结果区域并添加动画
+            resultContainer.classList.remove('hidden');
+            resultContainer.classList.add('animate-fade-in');
+            resultAmount.classList.remove('result-animation');
+            // 触发重绘
+            void resultAmount.offsetWidth;
+            resultAmount.classList.add('result-animation');
+            
+            // 滚动到结果区域
+            resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+        
+        // 输入框回车键事件
+        minAmountInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                maxAmountInput.focus();
+            }
+        });
+        
+        maxAmountInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                generateBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
